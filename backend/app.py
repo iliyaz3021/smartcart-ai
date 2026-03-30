@@ -3,7 +3,7 @@ from flask_cors import CORS
 from models import db
 from config import Config
 
-# ✅ CREATE APP FIRST for testing the backend
+# ✅ CREATE APP FIRST for testing the backend properly
 app = Flask(__name__)
 app.config.from_object(Config)
 
