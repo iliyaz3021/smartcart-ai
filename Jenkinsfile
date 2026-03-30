@@ -8,7 +8,7 @@ pipeline {
                 echo 'Cloning repository...'
             }
         }
-        
+
         stage('Backend Setup') {
             steps {
                 dir('backend') {
@@ -17,18 +17,10 @@ pipeline {
             }
         }
 
-        stage('Run Migrations') {
+        stage('Run Backend') {
             steps {
                 dir('backend') {
-                    sh 'python manage.py migrate'
-                }
-            }
-        }
-
-        stage('Run Server') {
-            steps {
-                dir('backend') {
-                    sh 'nohup python manage.py runserver 0.0.0.0:8000 &'
+                    sh 'nohup python3 app.py &'
                 }
             }
         }
