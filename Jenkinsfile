@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10'
-        }
-    }
+    agent any
 
     stages {
 
@@ -13,10 +9,19 @@ pipeline {
             }
         }
 
+        stage('Install Python & Pip') {
+            steps {
+                sh '''
+                apt update
+                apt install -y python3 python3-pip
+                '''
+            }
+        }
+
         stage('Backend Setup') {
             steps {
                 dir('backend') {
-                    sh 'pip install -r requirements.txt'
+                    sh 'pip3 install -r requirements.txt'
                 }
             }
         }
@@ -24,7 +29,7 @@ pipeline {
         stage('Run Backend') {
             steps {
                 dir('backend') {
-                    sh 'nohup python app.py &'
+                    sh 'nohup python3 app.py &'
                 }
             }
         }
