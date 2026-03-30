@@ -3,18 +3,14 @@ pipeline {
 
     stages {
 
-        stage('Check Python') {
-            steps {
-                sh 'python3 --version || true'
-            }
-        }
-
         stage('Backend Setup') {
             steps {
                 dir('backend') {
                     sh '''
-                    python3 -m pip install --upgrade pip
-                    pip3 install -r requirements.txt
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                     '''
                 }
             }
@@ -23,7 +19,10 @@ pipeline {
         stage('Run Backend') {
             steps {
                 dir('backend') {
-                    sh 'nohup python3 app.py &'
+                    sh '''
+                    . venv/bin/activate
+                    nohup python app.py &
+                    '''
                 }
             }
         }
