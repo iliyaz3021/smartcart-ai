@@ -8,9 +8,8 @@ pipeline {
                 dir('backend') {
                     sh '''
                     python3 -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    venv/bin/pip install --upgrade pip
+                    venv/bin/pip install -r requirements.txt
                     '''
                 }
             }
@@ -20,8 +19,7 @@ pipeline {
             steps {
                 dir('backend') {
                     sh '''
-                    . venv/bin/activate
-                    nohup python app.py &
+                    nohup venv/bin/python app.py &
                     '''
                 }
             }
