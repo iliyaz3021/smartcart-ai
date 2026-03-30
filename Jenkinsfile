@@ -1,17 +1,21 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     stages {
+
+        stage('Check Python') {
+            steps {
+                sh 'python3 --version || true'
+            }
+        }
 
         stage('Backend Setup') {
             steps {
                 dir('backend') {
-                    sh 'pip install -r requirements.txt'
+                    sh '''
+                    python3 -m pip install --upgrade pip
+                    pip3 install -r requirements.txt
+                    '''
                 }
             }
         }
@@ -19,7 +23,7 @@ pipeline {
         stage('Run Backend') {
             steps {
                 dir('backend') {
-                    sh 'nohup python app.py &'
+                    sh 'nohup python3 app.py &'
                 }
             }
         }
